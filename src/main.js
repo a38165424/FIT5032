@@ -13,6 +13,11 @@ app.use(PrimeVue, {
         preset: Aura
     }
 })
-//  app.component('DataTable', DataTable);
-//  app.component('Column', Column);
-createApp(App).mount('#app')
+
+app.mount('#app');
+
+
+
+
+
+

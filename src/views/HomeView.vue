@@ -14,12 +14,36 @@
               <div v-if="errors.username" class ="text-danger">{{ errors.username }}</div>
             </div>
             <div class="col-6">
+              <label for="gender" class="form-label">Gender</label>
+              <select class="form-select" id="gender" 
+              @blur="() => validateGender(true)"
+              @input="() => validateGender(false)"
+              v-model="formData.gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+              <div v-if="errors.gender" class ="text-danger">{{ errors.gender }}</div>
+            </div>
+            <div class="col-6">
               <label for="password" class="form-label">Password</label>
               <input type="password" class="form-control" id="password" 
               @blur="() => validatePassword(true)"
               @input="() => validatePassword(false)"
               v-model="formData.password">
               <div v-if="errors.password" class ="text-danger">{{ errors.password }}</div>
+            </div>
+            <div class="col-md-6 col-sm-6">
+              <label for="confirm-password" class="form-label">Confirm password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="confirm-password"
+                @blur="() => validateConfirmPassword(true)"
+                @input="() => validateConfirmPassword(false)"
+                v-model="formData.confirmPassword"
+              />
+              <div v-if="errors.confirmPassword" class="text-danger">{{ errors.confirmPassword }}</div>
             </div>
           </div>
           <div class="row mb-3">
@@ -32,18 +56,6 @@
                 <label class="form-check-label" for="isAustralian">Are you an Australian resident?</label>
                 <div v-if="errors.resident" class ="text-danger">{{ errors.resident }}</div>
               </div>
-            </div>
-            <div class="col-6">
-              <label for="gender" class="form-label">Gender</label>
-              <select class="form-select" id="gender" 
-              @blur="() => validateGender(true)"
-              @input="() => validateGender(false)"
-              v-model="formData.gender">
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
-              <div v-if="errors.gender" class ="text-danger">{{ errors.gender }}</div>
             </div>
           </div>
           <div class="mb-3">
@@ -80,10 +92,11 @@ import Column from 'primevue/column';
 const formData = ref({
   username: '',
   password: '',
+  confirmPassword: '',
   isAustralian: false,
   reason: '',
   gender: ''
-});
+})
 
 const submittedCards = ref([]);
 
@@ -93,10 +106,20 @@ const submitForm = () => {
   validateGender(true);
   validateResident(true);
   validateReason(true);
+  validateConfirmPassword(true);
   
-  if (!errors.value.username && !errors.value.password && !errors.value.gender && !errors.value.resident && !errors.value.reason) {
+  if (!errors.value.username && !errors.value.password && !errors.value.gender && !errors.value.resident && 
+  !errors.value.reason && !errors.value.confirmPassword) {
+    // Save the user data to localStorage
+    localStorage.setItem('registeredUsername', formData.value.username);
+    localStorage.setItem('registeredPassword', formData.value.password);
+    localStorage.setItem('registeredGender', formData.value.gender);
+    localStorage.setItem('registeredIsAustralian', formData.value.isAustralian);
+    localStorage.setItem('registeredReason', formData.value.reason);
+    
     submittedCards.value.push({ ...formData.value });
     clearForm();
+    alert('Registration successful!');
   }
 };
 
@@ -104,6 +127,7 @@ const clearForm = () => {
   formData.value = {
     username: '',
     password: '',
+    confirmPassword: '',
     isAustralian: false,
     reason: '',
     gender: ''
@@ -113,11 +137,19 @@ const clearForm = () => {
 const errors = ref({
   username: null,
   password: null,
+  confirmPassword: null,
   resident: null,
   gender: null,
-  reason: null,
-});
+  reason: null
+})
 
+const validateConfirmPassword = (blur) => {
+  if (formData.value.password !== formData.value.confirmPassword) {
+    if (blur) errors.value.confirmPassword = 'Passwords do not match.'
+  } else {
+    errors.value.confirmPassword = null
+  }
+}
 const validateName = (blur) => {
   if(formData.value.username.length < 3){
     if (blur) errors.value.username = "Name must be at least 3 characters";

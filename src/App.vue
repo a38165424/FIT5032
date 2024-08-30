@@ -1,13 +1,16 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-import Form from "./components/Form.vue"
+import Form from "./views/HomeView.vue"
 import JSON from './components/JSON.vue'
+import BHeader from './components/BHeader.vue'
+
 </script>
 
 <template>
   <!-- <JSON /-->
   <!-- <JSONSolution /> -->
-   <Form />
+  <BHeader />
+  <router-view></router-view>
 </template>
 
 <style scoped>

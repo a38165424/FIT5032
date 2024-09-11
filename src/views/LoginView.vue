@@ -93,7 +93,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f5f5f5; /* 默认背景颜色 */
+    background-color: #f5f5f5; 
   }
   
   .login-card {

@@ -1,15 +1,21 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import Form from "./views/HomeView.vue"
-import JSON from './components/JSON.vue'
-import BHeader from './components/BHeader.vue'
+import HelloWorld from './components/HelloWorld.vue';
+import Form from './views/HomeView.vue';
+import JSON from './components/JSON.vue';
+import BHeader from './components/BHeader.vue';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
+
+const showHeader = computed(() => {
+  // Ensure route and route.name are not undefined before checking
+  return route && route.name !== 'CountBookAPI';
+});
 </script>
 
 <template>
-  <!-- <JSON /-->
-  <!-- <JSONSolution /> -->
-  <BHeader />
+  <BHeader v-if="showHeader" />
   <router-view></router-view>
 </template>
 
@@ -41,3 +47,4 @@ header {
   }
 }
 </style>
+

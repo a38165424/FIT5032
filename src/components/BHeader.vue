@@ -24,6 +24,18 @@
           <li class="nav-item">
             <router-link to="addbook" class = "nav-link" active-calss="active">Add Book</router-link>
           </li>
+          <li class="nav-item">
+            <router-link to="GetBookCountView" class = "nav-link" active-calss="active">Get Book Count</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="WeatherView" class = "nav-link" active-calss="active">Weather</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="CountBookAPI" class = "nav-link" active-calss="active">Count Book Api</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="GetAllBookAPI" class = "nav-link" active-calss="active">Get All Book Api</router-link>
+          </li>
         </ul>
       </header>
     </div>

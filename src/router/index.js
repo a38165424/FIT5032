@@ -1,14 +1,15 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AboutView from '../views/AboutView.vue'
-import LoginView from '../views/LoginView.vue'
-import FirebaseSigninView from '../views/FirebaseSigninView.vue'
-import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue'
-import AddBookView from '@/views/AddBookView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import HomeView from '../views/HomeView.vue';
+import AboutView from '../views/AboutView.vue';
+import LoginView from '../views/LoginView.vue';
+import FirebaseSigninView from '../views/FirebaseSigninView.vue';
+import FirebaseRegisterView from '@/views/FirebaseRegisterView.vue';
+import AddBookView from '@/views/AddBookView.vue';
 import GetBookCountView from '../views/GetBookCountView.vue';
 import WeatherView from '../views/WeatherView.vue';
 import CountBookAPI from '../views/CountBookAPI.vue';
 import GetAllBookAPI from '../views/GetAllBookAPI.vue';
+
 const routes = [
   {
     path: '/FireLogin',
@@ -29,7 +30,7 @@ const routes = [
     path: '/about',
     name: 'About',
     component: AboutView,
-    meta: { requiresAuth: true } 
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -61,13 +62,29 @@ const routes = [
     name: 'GetAllBookAPI',
     component: GetAllBookAPI
   }
-]
+];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL), 
   routes
-})
+});
 
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    if (!isAuthenticated) {
+      next({ name: 'Login' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
+
+export default router;
+
+/*
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
@@ -82,3 +99,4 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router
+*/

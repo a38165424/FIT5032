@@ -46,13 +46,13 @@
       },
       iconUrl() {
         return this.weatherData
-          ? `http://api.openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
+          ? `https://api.openweathermap.org/img/w/${this.weatherData.weather[0].icon}.png`
           : null;
       },
     },
     methods: {
       async searchByCity() {
-        const url = `http://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${apikey}`;
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${this.city}&appid=${apikey}`;
         try {
           const response = await axios.get(url);
           this.weatherData = response.data;
